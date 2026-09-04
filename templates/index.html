@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>KarmaBot - Мой профиль</title>
+</head>
+<body>
+    <h1>Профиль пользователя: {{ user.username }}</h1>
+    <p><strong>Баланс кармы:</strong> {{ user.karma }} очков</p>
+    <h2>Стадия Древа: {{ tree_level }}</h2>
+    <h3>План на сегодня:</h3>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {% if task[3] == 1 %}
+                    <del>{{ task[1] }} (+{{ task[2] }} кармы)</del> ✅
+                {% else %}
+                    {{ task[1] }} (+{{ task[2] }} кармы)
+                    <form action="/complete/{{ task[0] }}" method="POST" style="display:inline;">
+                        <button type="submit">Выполнил!</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <h3>Добавить новую привычку:</h3>
+    <form action="/add_habit" method="POST">
+        <label>Название:</label><br>
+        <input type="text" name="title" required placeholder="Например: Пить воду"><br><br>
+
+        <label>Награда (очков кармы):</label><br>
+        <input type="number" name="reward" value="10"><br><br>
+
+        <label>Штраф (за пропуск):</label><br>
+        <input type="number" name="penalty" value="5"><br><br>
+
+        <button type="submit">Создать привычку</button>
+    </form>
+</body>
+</html>
